@@ -79,6 +79,19 @@ def init_db():
     cur.close()
 
 
+@app.route('/api/notepad/delete/<notepad_id>', methods=['GET'])
+def delete_notepad(notepad_id):
+
+    sql = """
+        DELETE FROM notepad WHERE id = %s
+    """
+    cur = DB.cursor()
+    cur.execute(sql, (int(notepad_id),))
+    cur.close()
+    print()
+    return {}
+
+
 if __name__ == '__main__':
     init_db()
     app.run(debug=False)
