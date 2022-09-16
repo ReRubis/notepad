@@ -1,6 +1,34 @@
 import requests
 
 
+def test_user_registration(random_string):
+    url = 'http://127.0.0.1:5000/api/notepad/registration'
+    payload = {
+        'login': random_string,
+        'password': random_string,
+    }
+    resp = requests.post(url, json=payload)
+    assert resp.ok
+
+
+def test_user_registration_same_login(random_string):
+    # create new notepad
+    url = 'http://127.0.0.1:5000/api/notepad/registration'
+    payload = {
+        'login': random_string,
+        'password': random_string,
+    }
+
+    resp = requests.post(url, json=payload)
+    assert resp.ok
+
+    # get the just created notepad
+    url = 'http://127.0.0.1:5000/api/notepad/registration'
+
+    resp = requests.post(url, json=payload)
+    assert resp.ok
+
+
 def test_create_new_notepad(random_string):
     url = 'http://127.0.0.1:5000/api/notepad'
     payload = {
