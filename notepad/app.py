@@ -11,15 +11,14 @@ KEY_FOR_JWT = 'IncursoIncursoIncurso'
 
 def jwt_validation(user_jwt):
     # Function to validate JWT
-    user_id = jwt.decode(user_jwt, KEY_FOR_JWT, algorithms=["RS256"])
-    user_id = user_id.split('.')
-    user_id = user_id[0]
+    user_id = jwt.decode(user_jwt, KEY_FOR_JWT, algorithms=["HS256"])
+    key_user_id = list(user_id.keys())[0]
     cur = DB.cursor()
 
     sql = """
         SELECT id FROM users WHERE id = %s;
     """
-    cur.execute(sql, (user_id,))
+    cur.execute(sql, (key_user_id,))
     row = cur.fetchone()
 
     if row[0] is None:
@@ -30,6 +29,7 @@ def jwt_validation(user_jwt):
 
 @app.route('/api/notepad/registration', methods=['POST'])
 def registration_of_a_new_user():
+    # Recieves login and password to registrate a new user
     json_args = request.json
     login = json_args['login']
     password = json_args['password']
@@ -64,6 +64,8 @@ def registration_of_a_new_user():
 
 @app.route('/api/notepad/login', methods=['POST'])
 def login():
+    # Login page. Recieves password and login
+    # Returns JWT
     json_args = request.json
     login = json_args['login']
     password = json_args['password']

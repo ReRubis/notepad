@@ -1,4 +1,5 @@
 class NotepadRepository():
+
     def get(self):
         ...
 
