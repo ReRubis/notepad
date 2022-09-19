@@ -10,5 +10,10 @@
             "password": "postgres",
             "database": "postgres"
         }
-    ]
+    ],
+    "python.testing.pytestArgs": [
+        "notepad"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

@@ -43,7 +43,7 @@ def registration_of_a_new_user():
 
     if row is None:
         sql = """
-            INSERT INTO users (login, password, )
+            INSERT INTO users (login, password)
             VALUES (%s, %s)
             ON CONFLICT (login)
             DO NOTHING;
@@ -71,7 +71,7 @@ def login():
     password = json_args['password']
 
     sql = """
-        SELECT id FROM users WHERE login = %s, password = %s;
+        SELECT id FROM users WHERE login = %s AND password = %s;
     """
     cur = DB.cursor()
     cur.execute(sql, (login, password,))
@@ -174,7 +174,7 @@ def init_db():
 
     sql = """
     CREATE TABLE IF NOT EXISTS users (
-        user_uuid SERIAL NOT NULL PRIMARY KEY,
+        id SERIAL NOT NULL PRIMARY KEY,
         login TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
         date_of_creation TIMESTAMP DEFAULT current_timestamp

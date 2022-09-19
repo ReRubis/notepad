@@ -29,6 +29,24 @@ def test_user_registration_same_login(random_string):
     assert resp.ok
 
 
+def test_user_login(random_string):
+    url = 'http://127.0.0.1:5000/api/notepad/registration'
+    payload = {
+        'login': random_string,
+        'password': random_string,
+    }
+    resp = requests.post(url, json=payload)
+    assert resp.ok
+
+    url = 'http://127.0.0.1:5000/api/notepad/login'
+    resp = requests.post(url, json=payload)
+    assert resp.ok
+    resp_of_creation_json = resp.json()
+    jwt_user = resp_of_creation_json['jwt']
+    print(jwt_user)
+    pass
+
+
 def test_create_new_notepad(random_string):
     url = 'http://127.0.0.1:5000/api/notepad'
     payload = {
