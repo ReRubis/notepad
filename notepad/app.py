@@ -20,7 +20,7 @@ def jwt_validation(user_jwt):
     """
     cur.execute(sql, (key_user_id,))
     row = cur.fetchone()
-
+    
     if row[0] is None:
         return True
     else:
@@ -100,7 +100,7 @@ def create_or_update_notepad():
     text = json_args['text']
     jwt = json_args['jwt']
 
-    if jwt_validation(jwt) is False:
+    if jwt_validation(jwt) is True:
         return {
             'status': 'Forbidden'
         }, 403
@@ -141,7 +141,7 @@ def get_notepad(notepad_id):
     json_args = request.json
     jwt = json_args['jwt']
 
-    if jwt_validation(jwt) is False:
+    if jwt_validation(jwt) is True:
         return {
             'status': 'Forbidden'
         }, 403
@@ -153,7 +153,7 @@ def get_notepad(notepad_id):
     cur.execute(sql, (int(notepad_id),))
     row = cur.fetchone()
     cur.close()
-    print(row)
+    
     if row:
         return {
             'id': row[0],
@@ -199,16 +199,25 @@ def init_db():
     cur.close()
 
 
-@app.route('/api/notepad/delete/<notepad_id>', methods=['GET'])
+@app.route('/api/notepad/delete/<notepad_id>', methods=['POST'])
 def delete_notepad(notepad_id):
 
+    print('at least we got here1', notepad_id)
+
     json_args = request.json
+
+    print('at least we got here 1.5', notepad_id)
+
     jwt = json_args['jwt']
 
-    if jwt_validation(jwt) is False:
+    print('at least we got here2', notepad_id)
+
+    if jwt_validation(jwt) is True:
         return {
             'status': 'Forbidden'
         }, 403
+
+    print('at least we got here3', notepad_id)
 
     sql = """
         DELETE FROM notepad WHERE id = %s

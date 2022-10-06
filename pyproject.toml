@@ -22,8 +22,8 @@ build-backend = "pdm.pep517.api"
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 dev = [
-    "flake8>=5.0.0",
-    "autopep8>=1.6.0",
+    "flake8>=5.0.4",
+    "autopep8>=1.7.0",
     "pytest>=7.1.2",
     "requests>=2.28.1",
 ]
