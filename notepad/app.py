@@ -9,6 +9,17 @@ app = Flask('notepad')
 KEY_FOR_JWT = 'IncursoIncursoIncurso'
 
 
+class notepad():
+
+    def get_notepad():
+        pass
+
+    def save_notepad():
+        pass
+
+    pass
+
+
 def jwt_validation(user_jwt):
     # Function to validate JWT
     user_id = jwt.decode(user_jwt, KEY_FOR_JWT, algorithms=["HS256"])
@@ -20,7 +31,7 @@ def jwt_validation(user_jwt):
     """
     cur.execute(sql, (key_user_id,))
     row = cur.fetchone()
-    
+
     if row[0] is None:
         return True
     else:
@@ -95,6 +106,7 @@ def login():
 
 @ app.route('/api/notepad', methods=['POST'])
 def create_or_update_notepad():
+    # Notepad redaction page
     json_args = request.json
     name = json_args['name']
     text = json_args['text']
@@ -153,7 +165,7 @@ def get_notepad(notepad_id):
     cur.execute(sql, (int(notepad_id),))
     row = cur.fetchone()
     cur.close()
-    
+
     if row:
         return {
             'id': row[0],
@@ -201,16 +213,12 @@ def init_db():
 
 @app.route('/api/notepad/delete/<notepad_id>', methods=['POST'])
 def delete_notepad(notepad_id):
-
-    print('at least we got here1', notepad_id)
-
+    # Recieves id and then deletes the note from DB with that id
+    print('at least we got here')
     json_args = request.json
 
-    print('at least we got here 1.5', notepad_id)
-
+    print('at least we got here')
     jwt = json_args['jwt']
-
-    print('at least we got here2', notepad_id)
 
     if jwt_validation(jwt) is True:
         return {

@@ -57,7 +57,6 @@ def test_create_new_notepad(random_string, get_jwt):
     assert resp.ok
     resp_json = resp.json()
 
-
     assert resp_json['name'] == payload['name']
     assert resp_json['text'] == payload['text']
 
@@ -77,7 +76,7 @@ def test_get_notepad(random_string, get_jwt):
 
     # get the just created notepad
     url = f"http://127.0.0.1:5000/api/notepad/{resp_of_creation_json['id']}"
-    
+
     payload_jwt = {
         'jwt': get_jwt,
     }
@@ -105,11 +104,14 @@ def test_delete_notepad(random_string, get_jwt):
     assert resp_json['name'] == payload['name']
     assert resp_json['text'] == payload['text']
 
+    print(resp_json['id'])
+
     # delete the just created notepad
     url = f"http://127.0.0.1:5000/api/notepad/delete/{resp_json['id']}"
-    
+    print(url)
     payload_jwt = {
         'jwt': get_jwt,
     }
-    resp = requests.post(url, payload_jwt)
+    print(payload_jwt)
+    resp = requests.post(url, json=payload_jwt)
     assert resp.ok
